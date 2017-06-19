@@ -1,0 +1,71 @@
+/**
+ * Created by tww on 2017/4/22.
+ */
+'use strict';
+
+import React, {Component} from 'react'
+import {
+    Text,
+    View,
+    TextInput,
+    ScrollView,
+    StyleSheet,
+    TouchableHighlight,
+    ToastAndroid
+} from 'react-native'
+import NavBar from '../component/NavBar'
+import Global from '../Global'
+
+export default class EditUsername extends Component{
+    constructor(props){
+        super(props)
+        this.state={
+            username:Global.userinfo.username,
+        }
+    }
+    back() {
+        this.props.navigator.pop()
+    }
+    editUserInfo(){
+        Global.userinfo.username = this.state.username;
+        ToastAndroid.show('修改成功',ToastAndroid.SHORT);
+        this.props.callback();
+        this.props.navigator.pop();
+    }
+    render(){
+        return(
+            <View style={{flex: 1, backgroundColor: "#f3f3f3"}}>
+                <NavBar
+                    title="修改用户名"
+                    leftIcon="ios-arrow-back"
+                    leftPress={this.back.bind(this)}
+                />
+                <View style={{flex: 1, backgroundColor: "#f3f3f3"}}>
+                    <View style={{margin:10}}>
+                        <TextInput
+                            autoFocus={true}
+                            value={this.state.username}
+                            underlineColorAndroid="#FED161"
+                            onChangeText={(text)=> this.setState({username:text})}
+                        />
+                        {/*怎么把文字从上一个页面转移到这个页面*/}
+                        <Text>以中文或英文字母开头，限4-16个字符</Text>
+                    </View>
+                    <TouchableHighlight
+                        onPress={this.editUserInfo.bind(this)}
+                        style={{borderRadius:5,margin:10,backgroundColor: "#FED161", justifyContent: 'center', alignItems: 'center', padding: 10}}>
+                        <Text style={{fontSize: 20}}>确定</Text>
+                    </TouchableHighlight>
+                </View>
+            </View>
+        )
+    }
+}
+const styles = StyleSheet.create({
+    title: {
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        color: "#666"
+    }
+})
+
